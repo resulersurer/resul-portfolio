@@ -1,203 +1,118 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Send, MessageSquare, Mail } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Mail, MessageSquare, Send, Calendar, Phone } from 'lucide-react'
 
 export default function Contact() {
-  const [isVisible, setIsVisible] = useState(false)
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    message: ''
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 }
-    )
-
-    const element = document.getElementById('contact')
-    if (element) {
-      observer.observe(element)
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
-
-      if (response.ok) {
-        alert('Mesajınız için teşekkürler! En kısa sürede size geri döneceğim.')
-        setFormData({ name: '', phone: '', message: '' })
-      } else {
-        alert('Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin.')
-      }
-    } catch {
-      alert('Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin.')
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }))
-  }
-
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900/30">
-      <div className="max-w-4xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            <span className="gradient-text">İletişime Geçin</span>
-          </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Bir sonraki projenize başlamaya hazır mısınız? Fikirlerinizi hayata geçirmeme nasıl yardımcı olabileceğimizi tartışalım.
-          </p>
-        </div>
+    <section id="contact" className="py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute -bottom-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] -z-10" />
 
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 transition-all duration-1000 ${
-          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-        }`}>
-          {/* Contact Form */}
-          <div>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                  Adınız Soyadınız
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all duration-300"
-                  placeholder="Ahmet Yılmaz"
-                />
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          
+          {/* Left Side: Text \u0026 Info */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-sm font-bold tracking-widest text-indigo-400 uppercase mb-4">İletişim</h2>
+            <h3 className="text-5xl sm:text-7xl font-black text-white mb-8 leading-tight">
+              Birlikte <span className="gradient-text">Geliştirelim</span>
+            </h3>
+            <p className="text-gray-400 text-lg leading-relaxed mb-12 max-w-md">
+              Yeni bir proje fikriniz mi var veya mevcut sisteminizi ölçeklendirmek mi istiyorsunuz? Hemen iletişime geçin, teknik stratejinizi birlikte kurgulayalım.
+            </p>
+
+            <div className="space-y-6">
+              {[
+                { icon: Mail, label: 'Email', value: 'resul@ersurer.com', href: 'mailto:resul@ersurer.com' },
+                { icon: MessageSquare, label: 'WhatsApp', value: '+90 5XX XXX XX XX', href: '#' },
+                { icon: Calendar, label: 'Toplantı Planla', value: 'Calendly Üzerinden', href: '#' },
+              ].map((item, i) => (
+                <a 
+                  key={i} 
+                  href={item.href}
+                  className="flex items-center gap-6 p-4 rounded-2xl glass border border-white/5 hover:border-indigo-500/30 transition-all duration-300 group w-fit pr-10"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300">
+                    <item.icon size={24} />
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500 font-bold uppercase tracking-widest">{item.label}</div>
+                    <div className="text-white font-semibold">{item.value}</div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right Side: Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="p-10 rounded-[3rem] glass border border-white/10 relative overflow-hidden"
+          >
+            {/* Form Title */}
+            <h4 className="text-2xl font-bold text-white mb-8">Hızlı Mesaj Gönder</h4>
+            
+            <form className="space-y-6 relative z-10" onSubmit={(e) => e.preventDefault()}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Ad Soyad</label>
+                  <input 
+                    type="text" 
+                    placeholder="Resul Ersürer"
+                    className="w-full bg-slate-900/50 border border-white/5 rounded-2xl px-6 py-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-300"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">E-Posta</label>
+                  <input 
+                    type="email" 
+                    placeholder="resul@example.com"
+                    className="w-full bg-slate-900/50 border border-white/5 rounded-2xl px-6 py-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-300"
+                  />
+                </div>
               </div>
 
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
-                  Telefon Numaranız
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all duration-300"
-                  placeholder="+90 538 778 17 98"
-                />
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Konu</label>
+                <select className="w-full bg-slate-900/50 border border-white/5 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-indigo-500 transition-all duration-300 appearance-none">
+                  <option>Backend Projesi</option>
+                  <option>API Entegrasyonu</option>
+                  <option>Otomasyon Sistemleri</option>
+                  <option>Diğer</option>
+                </select>
               </div>
 
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                  Mesajınız
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={6}
-                  className="w-full px-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all duration-300 resize-none"
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Mesajınız</label>
+                <textarea 
+                  rows={4} 
                   placeholder="Projenizden bahsedin..."
+                  className="w-full bg-slate-900/50 border border-white/5 rounded-2xl px-6 py-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-300 resize-none"
                 />
               </div>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 px-8 py-4 gradient-bg text-white font-medium rounded-lg hover-lift transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full py-5 gradient-bg text-white font-bold rounded-2xl shadow-xl shadow-indigo-500/20 flex items-center justify-center gap-2 group transition-all duration-300"
               >
-                {isSubmitting ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    Gönderiliyor...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5" />
-                    Mesaj Gönder
-                  </>
-                )}
-              </button>
+                Mesajı Gönder
+                <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+              </motion.button>
             </form>
-          </div>
 
-          {/* Contact Info */}
-          <div className="space-y-8">
-            <div>
-              <h3 className="text-2xl font-semibold text-white mb-6">Bağlantı Kuralım</h3>
-              <p className="text-gray-300 leading-relaxed mb-8">
-                Aklınızda bir proje varsa veya sadece olasılıkları tartışmak istiyorsanız, yardımcı olmak için buradayım. Aşağıdaki kanallardan herhangi birinden ulaşın ve birlikte harika bir şeyler yaratalım.
-              </p>
-            </div>
-
-            {/* Contact Methods */}
-            <div className="space-y-4">
-              <a
-                href="mailto:resul@example.com"
-                className="flex items-center gap-4 p-4 rounded-lg bg-gray-900 border border-gray-800 hover:bg-gray-800 transition-all duration-300 group"
-              >
-                <div className="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <Mail className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <div className="font-medium text-white">E-posta</div>
-                  <div className="text-gray-400">resul.ersurer@icloud.com</div>
-                </div>
-              </a>
-
-              <a
-                href="https://wa.me/+905387781798"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 rounded-lg bg-gray-900 border border-gray-800 hover:bg-gray-800 transition-all duration-300 group"
-              >
-                <div className="w-12 h-12 rounded-lg bg-green-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <MessageSquare className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <div className="font-medium text-white">WhatsApp</div>
-                  <div className="text-gray-400">+90 538 778 17 98</div>
-                </div>
-              </a>
-            </div>
-
-            {/* Response Time */}
-            <div className="p-4 rounded-lg bg-purple-900/20 border border-purple-800/30">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-2 h-2 rounded-full bg-green-400"></div>
-                <span className="text-sm font-medium text-purple-300">Hızlı Yanıt</span>
-              </div>
-              <p className="text-sm text-gray-400">
-                Genellikle mesajlara 24 saat içinde yanıt veriyorum. Acil projeler için lütfen mesajınızda belirtin.
-              </p>
-            </div>
-          </div>
+            {/* Decorative dots */}
+            <div className="absolute -right-4 -bottom-4 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl" />
+          </motion.div>
         </div>
       </div>
     </section>

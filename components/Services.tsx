@@ -1,104 +1,115 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { 
-  Server, 
-  LayoutDashboard, 
-  Users, 
-  QrCode 
-} from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Code2, Database, Globe, Zap, Settings, ShieldCheck } from 'lucide-react'
 
 const services = [
   {
-    icon: Server,
-    title: 'Web API Geliştirme',
-    description: 'ASP.NET Core kullanarak modern mimari desenleri ve en iyi uygulamalar ile ölçeklenebilir ve güvenli RESTful API\'ler.',
+    title: 'Özel Backend Geliştirme',
+    desc: 'ASP.NET Core ve Web API kullanarak yüksek performanslı, güvenli ve ölçeklenebilir sunucu taraflı çözümler.',
+    icon: Code2,
+    color: 'from-blue-500 to-indigo-600',
   },
   {
-    icon: LayoutDashboard,
-    title: 'Admin Panel Sistemleri',
-    description: 'İş operasyonlarını ve verileri yönetmek için sezgisel arayüzlere sahip özel admin panelleri.',
+    title: 'Kurumsal Admin Panelleri',
+    desc: 'İş süreçlerinizi yönetmek için modern, hızlı ve kullanıcı dostu özel yönetim arayüzleri ve dashboardlar.',
+    icon: Settings,
+    color: 'from-purple-500 to-pink-600',
   },
   {
-    icon: Users,
-    title: 'CRM & Otomasyon Çözümleri',
-    description: 'Özel CRM sistemleri ve iş akışı otomasyon araçları ile iş süreçlerinizi kolaylaştırın.',
+    title: 'CRM & Otomasyon',
+    desc: 'Manuel işlemleri azaltan, verimliliği artıran ve müşteri ilişkilerinizi güçlendiren akıllı otomasyon sistemleri.',
+    icon: Zap,
+    color: 'from-amber-500 to-orange-600',
   },
   {
-    icon: QrCode,
-    title: 'QR Menü & Rezervasyon Sistemleri',
-    description: 'QR kod menüler ve online rezervasyon sistemleri ile modern restoran yönetim çözümleri.',
+    title: 'Sistem Entegrasyonları',
+    desc: 'Farklı platformlar ve API\'lar arasında sorunsuz veri akışı sağlayan mimari tasarımlar ve implementasyonlar.',
+    icon: Database,
+    color: 'from-emerald-500 to-teal-600',
+  },
+  {
+    title: 'Bulut Mimarisi & DevOps',
+    desc: 'Azure ve Docker kullanarak uygulamalarınızın kesintisiz ve yüksek erişilebilirlikte çalışmasını sağlayan kurulumlar.',
+    icon: Globe,
+    color: 'from-cyan-500 to-blue-600',
+  },
+  {
+    title: 'Güvenlik & Optimizasyon',
+    desc: 'Mevcut sistemlerinizin güvenlik açıklarını kapatma ve performans darboğazlarını giderme çalışmaları.',
+    icon: ShieldCheck,
+    color: 'from-rose-500 to-red-600',
   },
 ]
 
 export default function Services() {
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 }
-    )
-
-    const element = document.getElementById('services')
-    if (element) {
-      observer.observe(element)
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section id="services" className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
+    <section id="services" className="py-32 px-4 sm:px-6 lg:px-8 relative">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      
+      <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            <span className="gradient-text">Hizmetler</span>
-          </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            İşletmenizin dijital çağda başarılı olması için özel çözümler
-          </p>
+        <div className="text-center mb-20">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-sm font-bold tracking-widest text-indigo-400 uppercase mb-4"
+          >
+            Hizmetlerim
+          </motion.h2>
+          <motion.h3 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl sm:text-6xl font-bold text-white mb-6"
+          >
+            İşletmeniz İçin <span className="gradient-text">Güçlü Çözümler</span>
+          </motion.h3>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-gray-400 text-lg max-w-2xl mx-auto"
+          >
+            Teknoloji yığınım ve deneyimimle, işletmenizin dijital dönüşümünü hızlandırıyor ve operasyonel mükemmellik sağlıyorum.
+          </motion.p>
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.map((service, index) => {
-            const Icon = service.icon
-            return (
-              <div
-                key={index}
-                className={`group relative p-6 rounded-2xl bg-gray-900/50 border border-gray-800 hover-lift transition-all duration-700 ${
-                  isVisible 
-                    ? 'translate-y-0 opacity-100' 
-                    : 'translate-y-10 opacity-0'
-                }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                {/* Gradient border on hover */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-600/20 to-blue-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
-                <div className="relative z-10">
-                  {/* Icon */}
-                  <div className="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <Icon className="w-6 h-6 text-white" />
-                  </div>
-
-                  {/* Content */}
-                  <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-purple-300 transition-colors duration-300">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-400 leading-relaxed">
-                    {service.description}
-                  </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {services.map((service, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -10 }}
+              className="group relative p-8 rounded-3xl glass border border-white/5 hover:border-white/20 transition-all duration-500 overflow-hidden"
+            >
+              {/* Background Glow */}
+              <div className={`absolute -right-10 -top-10 w-32 h-32 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-20 blur-3xl transition-opacity duration-500`} />
+              
+              <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} p-0.5 mb-8 shadow-lg shadow-black/20`}>
+                <div className="w-full h-full rounded-2xl bg-slate-950 flex items-center justify-center">
+                  <service.icon className="w-7 h-7 text-white" />
                 </div>
               </div>
-            )
-          })}
+
+              <h4 className="text-xl font-bold text-white mb-4 group-hover:text-indigo-400 transition-colors duration-300">
+                {service.title}
+              </h4>
+              <p className="text-gray-400 leading-relaxed text-sm">
+                {service.desc}
+              </p>
+
+              {/* Bottom decorative line */}
+              <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent group-hover:w-full transition-all duration-700" />
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

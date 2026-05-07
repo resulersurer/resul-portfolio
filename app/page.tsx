@@ -10,15 +10,17 @@ import Navigation from '@/components/Navigation'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen selection:bg-indigo-500/30">
       <Navigation />
       <Hero />
-      <Services />
-      <Portfolio />
-      <About />
-      <Process />
-      <Testimonials />
-      <Contact />
+      <div className="relative z-10 space-y-0">
+        <Services />
+        <Portfolio />
+        <About />
+        <Process />
+        <Testimonials />
+        <Contact />
+      </div>
       <Footer />
     </main>
   )

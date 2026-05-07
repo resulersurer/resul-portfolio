@@ -1,6 +1,7 @@
 'use client'
 
-import { Github, Linkedin, Twitter, Mail, Heart } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Github, Linkedin, Twitter, Mail, Heart, ArrowUp } from 'lucide-react'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -9,79 +10,99 @@ export default function Footer() {
     { icon: Github, href: '#', label: 'GitHub' },
     { icon: Linkedin, href: '#', label: 'LinkedIn' },
     { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Mail, href: 'mailto:resul@example.com', label: 'Email' },
+    { icon: Mail, href: 'mailto:resul@ersurer.com', label: 'Email' },
   ]
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
-    <footer className="py-12 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Brand */}
-          <div>
-            <img src="/images/logo.png" alt="Ersürer Logo" className="h-8 w-auto mb-4" />
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Backend Developer & System Builder, dünya çapındaki işletmeler için ölçeklenebilir yazılım çözümleri oluşturuyor.
+    <footer className="relative pt-24 pb-12 px-4 sm:px-6 lg:px-8 border-t border-white/5 bg-slate-950">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+          
+          {/* Brand Section */}
+          <div className="md:col-span-2 space-y-8">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              className="flex items-center gap-2"
+            >
+              <img src="/images/logo.png" alt="Ersürer Logo" className="h-10 w-auto" />
+            </motion.div>
+            <p className="text-gray-400 text-lg leading-relaxed max-w-sm">
+              Enterprise düzeyde ölçeklenebilir backend mimarileri ve akıllı otomasyon sistemleri inşa eden kurumsal yazılım ortağınız.
             </p>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-white font-semibold mb-4">Hızlı Linkler</h4>
-            <ul className="space-y-2">
-              <li>
-                <a href="#services" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
-                  Hizmetler
-                </a>
-              </li>
-              <li>
-                <a href="#portfolio" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
-                  Portfolyo
-                </a>
-              </li>
-              <li>
-                <a href="#about" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
-                  Hakkımda
-                </a>
-              </li>
-              <li>
-                <a href="#contact" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
-                  İletişim
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Social Links */}
-          <div>
-            <h4 className="text-white font-semibold mb-4">Bağlantı</h4>
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               {socialLinks.map((link, index) => {
                 const Icon = link.icon
                 return (
-                  <a
+                  <motion.a
                     key={index}
                     href={link.href}
+                    whileHover={{ y: -5, backgroundColor: 'rgba(99, 102, 241, 0.1)', borderColor: 'rgba(99, 102, 241, 0.3)' }}
+                    className="w-12 h-12 rounded-2xl glass border border-white/5 flex items-center justify-center text-gray-400 hover:text-indigo-400 transition-all duration-300"
                     aria-label={link.label}
-                    className="w-10 h-10 rounded-lg bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition-all duration-300 hover:scale-110"
                   >
                     <Icon className="w-5 h-5" />
-                  </a>
+                  </motion.a>
                 )
               })}
             </div>
           </div>
+
+          {/* Quick Links */}
+          <div className="space-y-8">
+            <h4 className="text-white font-bold text-sm uppercase tracking-[0.2em]">Hızlı Linkler</h4>
+            <ul className="space-y-4">
+              {[
+                { name: 'Hizmetler', href: '#services' },
+                { name: 'Portfolyo', href: '#portfolio' },
+                { name: 'Hakkımda', href: '#about' },
+                { name: 'İletişim', href: '#contact' },
+              ].map((link) => (
+                <li key={link.name}>
+                  <a href={link.href} className="text-gray-400 hover:text-indigo-400 transition-colors duration-200 flex items-center group text-sm">
+                    <span className="w-0 group-hover:w-4 h-px bg-indigo-400 mr-0 group-hover:mr-2 transition-all duration-300" />
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Services Quick View */}
+          <div className="space-y-8">
+            <h4 className="text-white font-bold text-sm uppercase tracking-[0.2em]">Uzmanlıklar</h4>
+            <ul className="space-y-4 text-sm">
+              <li className="text-gray-400">ASP.NET Core \u0026 Web API</li>
+              <li className="text-gray-400">Microservices Mimarisi</li>
+              <li className="text-gray-400">Azure \u0026 Cloud Solutions</li>
+              <li className="text-gray-400">CRM \u0026 ERP Otomasyonları</li>
+            </ul>
+          </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-gray-800">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-400 text-sm">
-              © {currentYear} Resul Ersürer. Tüm hakları saklıdır.
-            </p>
-            <p className="text-gray-400 text-sm flex items-center gap-1">
-              Next.js & Tailwind CSS ile <Heart className="w-4 h-4 text-red-500 fill-current" /> ile yapıldı
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="flex flex-col md:flex-row items-center gap-4 text-gray-500 text-sm">
+            <p>© {currentYear} Resul Ersürer. Tüm hakları saklıdır.</p>
+            <span className="hidden md:block w-1 h-1 bg-gray-700 rounded-full" />
+            <p className="flex items-center gap-1.5">
+              Next.js \u0026 Tailwind ile <Heart className="w-4 h-4 text-red-500 fill-current" /> ile geliştirildi.
             </p>
           </div>
+          
+          <motion.button
+            onClick={scrollToTop}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="w-12 h-12 rounded-full glass border border-white/10 flex items-center justify-center text-white hover:bg-indigo-500 transition-all duration-300"
+            aria-label="Yukarı Çık"
+          >
+            <ArrowUp size={20} />
+          </motion.button>
         </div>
       </div>
     </footer>

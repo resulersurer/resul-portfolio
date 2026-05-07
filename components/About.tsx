@@ -1,123 +1,127 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Code2, Database, Globe, Zap } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Code2, Database, Globe, Zap, Cpu, Server, Layers, Workflow } from 'lucide-react'
 
 const skills = [
-  { icon: Code2, name: 'ASP.NET Core', level: 95 },
-  { icon: Database, name: 'Web API Geliştirme', level: 90 },
-  { icon: Globe, name: 'Admin Panel Sistemleri', level: 92 },
-  { icon: Zap, name: 'CRM & Otomasyon', level: 88 },
+  { icon: Code2, name: 'ASP.NET Core', level: 95, color: 'from-blue-400 to-indigo-500' },
+  { icon: Database, name: 'Web API \u0026 Microservices', level: 90, color: 'from-purple-400 to-pink-500' },
+  { icon: Server, name: 'SQL Server \u0026 PostgreSQL', level: 92, color: 'from-cyan-400 to-blue-500' },
+  { icon: Workflow, name: 'CRM \u0026 Otomasyon', level: 88, color: 'from-emerald-400 to-teal-500' },
 ]
 
 export default function About() {
-  const [isVisible, setIsVisible] = useState(false)
-  const [skillsVisible, setSkillsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          setTimeout(() => setSkillsVisible(true), 300)
-        }
-      },
-      { threshold: 0.1 }
-    )
-
-    const element = document.getElementById('about')
-    if (element) {
-      observer.observe(element)
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            <span className="gradient-text">Hakkımda</span>
-          </h2>
-        </div>
-
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center transition-all duration-1000 ${
-          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-        }`}>
-          {/* Text Content */}
-          <div>
-            <h3 className="text-2xl font-semibold text-white mb-4">
-              Backend Developer & System Builder
+    <section id="about" className="py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute top-1/2 left-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-[100px]" />
+      
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+          
+          {/* Left Side: About Text */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-sm font-bold tracking-widest text-indigo-400 uppercase mb-4">Hakkımda</h2>
+            <h3 className="text-4xl sm:text-5xl font-black text-white mb-8 leading-tight">
+              Sadece Kod Yazmıyorum, <br />
+              <span className="gradient-text">Değer Üretiyorum</span>
             </h3>
-            <p className="text-gray-300 leading-relaxed mb-6">
-              Modern teknolojileri kullanarak ölçeklenebilir backend sistemleri, admin panelleri ve iş otomasyon araçları oluşturma konusunda uzmanlaştım. ASP.NET Core ve Web API geliştirmede güçlü bir temelle, işletmelerin sağlam, verimli ve bakımı kolay yazılım çözümleri oluşturmasına yardımcı oluyorum.
-            </p>
-            <p className="text-gray-300 leading-relaxed mb-6">
-              Odağım, iş gereksinimlerini anlamak ve bunları büyümeyi ve verimliliği teşvik eden teknik çözümlere dönüştürmektir. Kurumsal düzeyde admin panellerinden otomatik CRM sistemlerine kadar, sadece işlevsel olmakla kalmayan aynı zamanda ölçeklenebilir ve geleceğe hazır kod teslim ediyorum.
-            </p>
-            <p className="text-gray-300 leading-relaxed">
-              Her proje, karmaşık sorunları çözmek ve teknoloji aracılığıyla değer yaratmak için bir fırsattır. Temiz kod, en iyi uygulamalar ve işletmelerin nasıl çalıştığında gerçek fark yaratan sistemler oluşturmak konusunda tutkuluyum.
-            </p>
-          </div>
-
-          {/* Skills */}
-          <div className="space-y-6">
-            <h4 className="text-xl font-semibold text-white mb-6">Temel Uzmanlık Alanları</h4>
-            {skills.map((skill, index) => {
-              const Icon = skill.icon
-              return (
-                <div
-                  key={index}
-                  className="space-y-2"
-                  style={{ transitionDelay: `${index * 100}ms` }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center">
-                        <Icon className="w-4 h-4 text-white" />
-                      </div>
-                      <span className="text-gray-300 font-medium">{skill.name}</span>
-                    </div>
-                    <span className="text-gray-400 text-sm">{skill.level}%</span>
-                  </div>
-                  <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
-                    <div
-                      className="h-full gradient-bg rounded-full transition-all duration-1000 ease-out"
-                      style={{
-                        width: skillsVisible ? `${skill.level}%` : '0%',
-                        transitionDelay: `${index * 100 + 500}ms`
-                      }}
-                    />
-                  </div>
+            
+            <div className="space-y-6 text-gray-400 text-lg leading-relaxed">
+              <p>
+                Modern teknolojileri kullanarak ölçeklenebilir backend sistemleri, kurumsal admin panelleri ve iş otomasyon araçları oluşturma konusunda uzmanlaşmış bir <span className="text-white font-semibold">Backend Mimarıyım.</span>
+              </p>
+              <p>
+                İş gereksinimlerini derinlemesine anlayarak, bunları büyümeyi ve verimliliği artıran teknik çözümlere dönüştürüyorum. Temiz kod prensipleri ve modern mimari yaklaşımlarla, işletmenizin gelecekteki ihtiyaçlarına da yanıt verecek sistemler kuruyorum.
+              </p>
+              
+              <div className="grid grid-cols-2 gap-6 pt-6">
+                <div className="p-6 rounded-2xl glass border border-white/5">
+                  <div className="text-3xl font-black text-white mb-1">5+</div>
+                  <div className="text-xs text-gray-500 uppercase tracking-widest font-bold">Yıllık Deneyim</div>
                 </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-8 border-t border-gray-800">
-          {[
-            { number: '50+', label: 'Tamamlanan Proje' },
-            { number: '5+', label: 'Yıllık Deneyim' },
-            { number: '30+', label: 'Mutlu Müşteri' },
-            { number: '100%', label: 'Memnuniyet Oranı' },
-          ].map((stat, index) => (
-            <div
-              key={index}
-              className={`text-center transition-all duration-700 ${
-                isVisible 
-                  ? 'translate-y-0 opacity-100' 
-                  : 'translate-y-10 opacity-0'
-              }`}
-              style={{ transitionDelay: `${index * 100 + 300}ms` }}
-            >
-              <div className="text-3xl font-bold gradient-text mb-2">{stat.number}</div>
-              <div className="text-sm text-gray-400">{stat.label}</div>
+                <div className="p-6 rounded-2xl glass border border-white/5">
+                  <div className="text-3xl font-black text-white mb-1">50+</div>
+                  <div className="text-xs text-gray-500 uppercase tracking-widest font-bold">Başarılı Proje</div>
+                </div>
+              </div>
             </div>
-          ))}
+          </motion.div>
+
+          {/* Right Side: Skills \u0026 "Currently Building" */}
+          <div className="space-y-12">
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="p-8 rounded-[2.5rem] bg-slate-900/40 border border-white/5 relative overflow-hidden"
+            >
+              <h4 className="text-xl font-bold text-white mb-8 flex items-center gap-2">
+                <Cpu className="w-5 h-5 text-indigo-400" />
+                Teknoloji Yığınım
+              </h4>
+              <div className="space-y-8">
+                {skills.map((skill, index) => (
+                  <div key={index} className="space-y-3">
+                    <div className="flex justify-between items-end">
+                      <span className="text-gray-300 font-bold text-sm tracking-wide">{skill.name}</span>
+                      <span className="text-indigo-400 font-black text-xs">{skill.level}%</span>
+                    </div>
+                    <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${skill.level}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.5, delay: index * 0.1, ease: 'circOut' }}
+                        className={`h-full bg-gradient-to-r ${skill.color} rounded-full`}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Currently Building Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="p-8 rounded-[2.5rem] gradient-bg relative overflow-hidden group shadow-2xl"
+            >
+              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 text-white/80 text-xs font-black uppercase tracking-[0.2em] mb-4">
+                  <Layers className="w-4 h-4 animate-bounce" />
+                  Şu An Ne Geliştiriyorum?
+                </div>
+                <h4 className="text-2xl font-bold text-white mb-4">
+                  Multi-Tenant AI SaaS Altyapısı
+                </h4>
+                <p className="text-white/70 text-sm leading-relaxed mb-6">
+                  Ölçeklenebilir, yapay zeka destekli ve mikroservis mimarisine sahip yeni nesil bir SaaS framework üzerinde çalışıyorum.
+                </p>
+                <div className="flex items-center gap-4 text-xs font-bold text-white">
+                  <span className="flex items-center gap-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_10px_rgba(74,222,128,0.5)]" />
+                    Aktif Geliştirme
+                  </span>
+                  <span className="px-3 py-1 rounded-lg bg-white/10">v0.8.4</span>
+                </div>
+              </div>
+              
+              {/* Decorative graphic */}
+              <div className="absolute -right-8 -bottom-8 opacity-20 transform rotate-12 group-hover:rotate-0 transition-transform duration-700">
+                <Workflow size={120} className="text-white" />
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
