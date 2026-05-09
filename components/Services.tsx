@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Code2, Database, Globe, Zap, Settings, ShieldCheck, Copy, X, CheckCircle, Loader2, Wallet, AlertCircle } from 'lucide-react'
 import { QRCodeSVG } from 'qrcode.react'
