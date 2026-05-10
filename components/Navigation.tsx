@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
@@ -17,10 +18,11 @@ export default function Navigation() {
   }, [])
 
   const navItems = [
-    { label: 'Hizmetler', href: '#services' },
-    { label: 'Portfolyo', href: '#portfolio' },
-    { label: 'Hakkımda', href: '#about' },
-    { label: 'İletişim', href: '#contact' },
+    { label: 'Hizmetler', href: '/#services' },
+    { label: 'Portfolyo', href: '/#portfolio' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'Hakkımda', href: '/#about' },
+    { label: 'İletişim', href: '/#contact' },
   ]
 
   return (
@@ -38,40 +40,47 @@ export default function Navigation() {
             animate={{ opacity: 1, x: 0 }}
             className="flex-shrink-0"
           >
-            <a href="#" className="flex items-center gap-2 group">
+            <Link href="/" className="flex items-center gap-2 group">
               <img 
                 src="/images/logo.png" 
                 alt="Ersürer Logo" 
                 className="h-9 w-auto transition-transform duration-300 group-hover:scale-110" 
               />
-            </a>
+            </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="flex items-center space-x-1">
               {navItems.map((item, index) => (
-                <motion.a
+                <motion.div
                   key={item.label}
-                  href={item.href}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="text-gray-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full hover:bg-white/5"
                 >
-                  {item.label}
-                </motion.a>
+                  <Link
+                    href={item.href}
+                    className="text-gray-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full hover:bg-white/5 inline-block"
+                  >
+                    {item.label}
+                  </Link>
+                </motion.div>
               ))}
-              <motion.a
-                href="#contact"
+              <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="ml-4 px-6 py-2 rounded-full gradient-bg text-white text-sm font-semibold shadow-lg shadow-indigo-500/20 transition-all duration-300"
+                className="ml-4"
               >
-                Teklif Al
-              </motion.a>
+                <Link
+                  href="/#contact"
+                  className="px-6 py-2 rounded-full gradient-bg text-white text-sm font-semibold shadow-lg shadow-indigo-500/20 transition-all duration-300 block"
+                >
+                  Teklif Al
+                </Link>
+              </motion.div>
             </div>
           </div>
 
@@ -98,22 +107,22 @@ export default function Navigation() {
           >
             <div className="px-4 pt-2 pb-6 space-y-2">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.label}
                   href={item.href}
                   className="text-gray-300 hover:text-white block px-4 py-3 text-lg font-medium rounded-xl hover:bg-white/5 transition-all duration-200"
                   onClick={() => setIsOpen(false)}
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
-              <a
-                href="#contact"
-                className="block w-full text-center px-4 py-4 mt-4 rounded-xl gradient-bg text-white font-bold"
+              <Link
+                href="/#contact"
+                className="block w-full text-center px-4 py-4 mt-4 rounded-xl gradient-bg text-white font-bold hover:opacity-90 transition-opacity"
                 onClick={() => setIsOpen(false)}
               >
                 Teklif Al
-              </a>
+              </Link>
             </div>
           </motion.div>
         )}
