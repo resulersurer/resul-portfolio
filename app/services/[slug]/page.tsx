@@ -54,6 +54,12 @@ type Props = {
   params: { slug: string }
 }
 
+export function generateStaticParams() {
+  return Object.keys(servicesData).map((slug) => ({ slug }))
+}
+
+export const dynamic = 'force-static'
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const service = servicesData[params.slug as keyof typeof servicesData]
 
