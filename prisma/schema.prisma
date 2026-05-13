@@ -27,14 +27,14 @@ model ContactMessage {
 }
 
 model PaymentNotification {
-  id          String   @id @default(uuid())
-  serviceName String
-  txid        String
-  walletAddress String   @default("TWResKHqM7tpuAuFyioAWfQbrj5XfV2LCi")
-  status      String   @default("pending")
-  createdAt   DateTime @default(now())
-  verifiedAt  DateTime?
-  notes       String?
+  id            String    @id @default(uuid())
+  serviceName   String
+  txid          String
+  walletAddress String    @default("TWResKHqM7tpuAuFyioAWfQbrj5XfV2LCi")
+  status        String    @default("pending")
+  createdAt     DateTime  @default(now())
+  verifiedAt    DateTime?
+  notes         String?
 }
 
 model Service {
@@ -56,7 +56,7 @@ model Project {
   title       String
   category    String
   description String
-  tech        String   // SQLite doesn't support String[], using comma separated string
+  tech        String // SQLite doesn't support String[], using comma separated string
   image       String
   link        String?
   github      String?
@@ -71,4 +71,32 @@ model LoginAttempt {
   ip          String   @unique
   count       Int      @default(1)
   lastAttempt DateTime @default(now())
+}
+
+model LeadCompany {
+  id              String        @id @default(uuid())
+  name            String
+  sector          String
+  district        String
+  phone           String
+  websiteStatus   String
+  leadStatus      String
+  lastContactedAt DateTime?
+  nextFollowUpAt  DateTime?
+  notes           String?
+  meetings        LeadMeeting[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model LeadMeeting {
+  id          String      @id @default(uuid())
+  company     LeadCompany @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId   String
+  type        String
+  scheduledAt DateTime
+  status      String
+  notes       String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }

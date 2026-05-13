@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { 
-  LayoutDashboard, Mail, Wallet, Settings, ExternalLink, LogOut 
+  LayoutDashboard, Mail, Wallet, Settings, ExternalLink, ClipboardList, LogOut 
 } from 'lucide-react'
 
 interface AdminSidebarProps {
@@ -90,6 +90,13 @@ export default function AdminSidebar({
             <ExternalLink className="w-4 h-4" />
             Proje Yönetimi
           </button>
+          <a 
+            href="/admin/firmalar"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all text-slate-400 hover:text-white hover:bg-white/5"
+          >
+            <ClipboardList className="w-4 h-4" />
+            Firma Takip
+          </a>
         </nav>
       </div>
 
